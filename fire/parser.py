@@ -34,7 +34,7 @@ def CreateParser():
   return parser
 
 
-def SeparateFlagArgs(args):
+def SeparateFlagArgs(args: list):
   """Splits a list of args into those for Flags and those for Fire.
 
   If an isolated '--' arg is not present in the arg list, then all of the args
@@ -46,11 +46,17 @@ def SeparateFlagArgs(args):
   Returns:
     A tuple with the Fire args (a list), followed by the Flag args (a list).
   """
+  if len(args) > 1 and (args[-1] == '-h' or args[-1] == '--help') and '--' not in args:
+    args.pop()
+    args.append('--')
+    args.append('-h')
+
   if '--' in args:
     separator_index = len(args) - 1 - args[::-1].index('--')  # index of last --
     flag_args = args[separator_index + 1:]
     args = args[:separator_index]
     return args, flag_args
+
   return args, []
 
 

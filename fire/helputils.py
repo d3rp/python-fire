@@ -92,18 +92,18 @@ def HelpString(component, trace=None, verbose=False):
   info['usage'] = UsageString(component, trace, verbose)
 
   fields = [
-      'type_name',
-      'string_form',
-      'file',
-      'line',
-
+      # 'type_name',
+      # 'string_form',
+      # 'file',
+      # 'line',
+      #
+      'usage',
       'docstring',
       'init_docstring',
       'class_docstring',
       'call_docstring',
       'length',
 
-      'usage',
   ]
 
   max_size = max(
@@ -164,9 +164,12 @@ def _UsageStringFromFullArgSpec(command, spec):
     help_flags.append(arg_str)
     help_positional.append(arg_str)
 
-  if spec.varkw:
-    help_flags.append('[--{kwarg} ...]'.format(kwarg=spec.varkw.upper()))
-    help_positional.append('[--{kwarg} ...]'.format(kwarg=spec.varkw.upper()))
+  # if spec.varkw:
+  #   help_flags.append('[--{kwarg} ...]'.format(kwarg=spec.varkw.upper()))
+  #   help_positional.append('[--{kwarg} ...]'.format(kwarg=spec.varkw.upper()))
+
+  help_flags.append('[ARGS]')
+  help_positional.append('[ARGS]')
 
   commands_flags = command + ' '.join(help_flags)
   commands_positional = command + ' '.join(help_positional)
@@ -175,7 +178,7 @@ def _UsageStringFromFullArgSpec(command, spec):
   if commands_flags != commands_positional:
     commands.append(commands_flags)
 
-  return '\n'.join(commands)
+  return '\n'.join(commands) + '\n'
 
 
 def UsageString(component, trace=None, verbose=False):
